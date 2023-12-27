@@ -18,7 +18,6 @@ func HASH_CalculateChecksum(filePath string) (string, error) {
 	hash.Write(data)
 	checksum := hex.EncodeToString(hash.Sum(nil))
 
-	fmt.Printf("Checksum for %s is %s\n", filePath, checksum)
 	return checksum, nil
 }
 
@@ -31,6 +30,10 @@ func HASH_CalculateChecksumForDirectory(dirPath string) (string, error) {
 		}
 
 		if info.IsDir() {
+			return nil
+		}
+
+		if info.Name() == "trays.json" {
 			return nil
 		}
 

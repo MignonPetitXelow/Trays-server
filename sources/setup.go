@@ -33,7 +33,6 @@ func Setup_CheckForModPacks() error {
 		if err != nil {
 			return err
 		}
-		fmt.Print("[STEP-1] Reading modpack folder\n\n")
 		if info.IsDir() && filePath != TRAYS_FOLDER+"storage/public/modpacks" {
 			if filePath == TRAYS_FOLDER+"storage/public/modpacks" {
 				return nil
@@ -42,7 +41,7 @@ func Setup_CheckForModPacks() error {
 			wg.Add(1)
 			go func(filePath string, info os.FileInfo) {
 				defer wg.Done()
-				fmt.Print("[STEP-2] Calculating checksum of the folder\n\n")
+				fmt.Print("Calculating checksum of the folder " + info.Name() + "\n")
 				hash, err := HASH_CalculateChecksumForDirectory(TRAYS_FOLDER + filePath)
 				if err != nil {
 					fmt.Println("[ERROR] Failed to calculate hash of", filePath, "{", err, "}")
@@ -55,7 +54,7 @@ func Setup_CheckForModPacks() error {
 				}
 
 				ModpacksMutex.Lock()
-				fmt.Print("[STEP-3] Setting up new modpack data..\n\n")
+				fmt.Print("\nSetting up new modpack data..\n")
 				Pack := Pack{
 					Name:       info.Name(),
 					Path:       strings.ReplaceAll(filePath, "\\", "/"),
